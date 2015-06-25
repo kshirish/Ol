@@ -1,7 +1,7 @@
 var express  = require('express');
 var app      = express();
 var port     = process.env.PORT || 8080;
-var mongoose = require('mongoose');
+var mongojs  = require('mongojs');
 var passport = require('passport');
 var flash    = require('connect-flash');
 
@@ -11,10 +11,9 @@ var bodyParser   = require('body-parser');
 var session      = require('express-session');
 
 var configDB = require('./config/database.js');
+var User = mongojs(configDB.url).collection('user');
 
-mongoose.connect(configDB.url); // connect to our database
-
-require('./config/passport')(passport); // pass passport for configuration
+require('./config/passport')(passport, User); // pass passport for configuration
 
 app.use(morgan('dev')); // log every request to the console
 app.use(cookieParser()); // read cookies (needed for auth)
@@ -24,12 +23,12 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.set('view engine', 'ejs'); // set up ejs for templating
 
 // required for passport
-app.use(session({ secret: 'ilovescotchscotchyscotchscotch' })); // session secret
+app.use(session({ secret: 'nowyouseeme' })); // session secret
 app.use(passport.initialize());
 app.use(passport.session()); // persistent login sessions
 app.use(flash()); // use connect-flash for flash messages stored in session
 
-require('./routes/routes.js')(app, passport); 
+require('./app/routes.js')(app, passport); 
 
 app.listen(port);
-console.log('The magic happens on port ' + port);
+console.log('Server Running At: ' + port);

@@ -1,27 +1,19 @@
 var TwitterStrategy  = require('passport-twitter').Strategy;
-var User       = require('../app/models/user');
 var configAuth = require('./auth');
 
-module.exports = function(passport) {
+module.exports = function(passport, User) {
 
-    // =========================================================================
-    // passport session setup ==================================================
-    // =========================================================================
-    // required for persistent login sessions
     // passport needs ability to serialize and unserialize users out of session
 
-    // used to serialize the user for the session
     passport.serializeUser(function(user, done) {
         done(null, user.id);
     });
 
-    // used to deserialize the user
     passport.deserializeUser(function(id, done) {
-        User.findById(id, function(err, user) {
+        User.find(id, function(err, user) {
             done(err, user);
         });
     });
-
 
     passport.use(new TwitterStrategy({
 
@@ -78,7 +70,7 @@ module.exports = function(passport) {
 
             } else {
                 // user already exists and is logged in, we have to link accounts
-                var user                 = req.user; // pull the user out of the session
+                var user                 = req.user;
 
                 user.twitter.id          = profile.id;
                 user.twitter.token       = token;

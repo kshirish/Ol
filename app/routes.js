@@ -1,8 +1,9 @@
 var configAuth = require('../config/auth');
 var request = require('request');
 
-// route middleware to ensure user is logged in
+// middleware to check login
 function isLoggedIn(req, res, next) {
+
     if (req.isAuthenticated())
         return next();
 
@@ -11,14 +12,11 @@ function isLoggedIn(req, res, next) {
 
 module.exports = function(app, passport) {
 
-// normal routes ===============================================================
 
-    // show the home page (will also have our login links)
     app.get('/', function(req, res) {
         res.render('index.ejs');
     });
 
-    // PROFILE SECTION =========================
     app.get('/profile', isLoggedIn, function(req, res) {
 
         oauth = { 
@@ -45,7 +43,6 @@ module.exports = function(app, passport) {
 
     });
 
-    // LOGOUT ==============================
     app.get('/logout', function(req, res) {
         req.logout();
         res.redirect('/');
@@ -60,7 +57,6 @@ module.exports = function(app, passport) {
         }));
 
 
-    // AUTHORIZE (ALREADY LOGGED IN / CONNECTING OTHER SOCIAL ACCOUNT)
     app.get('/connect/twitter', passport.authorize('twitter', { scope : 'email' }));
 
     app.get('/connect/twitter/callback',
@@ -70,7 +66,6 @@ module.exports = function(app, passport) {
         }));
 
 
-    // UNLINK ACCOUNTS
     app.get('/unlink/twitter', isLoggedIn, function(req, res) {
         var user           = req.user;
         user.twitter.token = undefined;
