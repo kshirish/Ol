@@ -2,36 +2,35 @@
 <!doctype html>
 <html>
 <head>
-	<title>:: Ol ::</title>
+	<title>:: Ol' ::</title>
+	<meta charset="utf-8">
+	<meta name="author" content="kshirish">
+	<meta name="description" content="social"> 
+	<meta name="keywords" content="social">
+	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
 	<link href='http://fonts.googleapis.com/css?family=Roboto' rel='stylesheet' type='text/css'>
 	<link rel="stylesheet" type="text/css" href="/stylesheets/style.css">
+	<link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
 </head>
 <body>
 
-	<h1>Profile Page</h1>
+	<h1>Ol'</h1>
 	
-	<p>
-		<strong>displayName</strong>: <%= user.twitter.displayName %><br>
-		<strong>username</strong>: <%= user.twitter.username %><br>
-		<strong>token</strong>: <%= user.twitter.token %><br>
-		<strong>id</strong>: <%= user.twitter.id %>
-	</p>
-
-	<button>get me tweets</button>
-
 	<div id="social-list"></div>	
 
 	<!-- twitter item template -->
 	<script id="twitter-item-template" type="text/x-handlebars-template">
 		{{#each results}}
 			<div class="social-item">
+				<i class="fa fa-twitter"></i>
 				<div class="user-image">
 					<img src="{{profile_image_url}}" alt="user image"/>
 				</div>	
 				<div class="userinfo-container">
 
 					<ul class="userinfo-topbar">
-						<li>{{screen_name}}</li>
+						<li>@{{screen_name}}</li>
 						<li>{{name}}</li>
 						<li>{{created_at}}</li>
 					</ul>
@@ -41,9 +40,9 @@
 					</div>
 
 					<ul class="userinfo-bottombar">
-						<li>{{retweet_count}}</li>
-						<li>{{favorite_count}}</li>
-						<li>{{location}}</li>
+						<li>{{retweet_count}} <i class="fa fa-retweet"></i></li>
+						<li>{{favorite_count}} <i class="fa fa-star"></i></li>
+						<li>{{location}} <i class="fa fa-map-marker"></i></li>
 					</ul>
 				</div>
 			</div>

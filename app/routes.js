@@ -18,7 +18,7 @@ function filterTwitterData(tArr) {
     tArr.map(function(value, index) {
 
         rArr[index] = {};
-        rArr[index].created_at = value.created_at;
+        rArr[index].created_at = (new Date(value.created_at)).toLocaleString();
         rArr[index].retweet_count = value.retweet_count;
         rArr[index].favorite_count = value.favorite_count;
         rArr[index].text = value.text;
