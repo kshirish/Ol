@@ -18,29 +18,10 @@ module.exports = function(app, passport) {
     });
 
     app.get('/profile', isLoggedIn, function(req, res) {
-
-        oauth = { 
-            consumer_key: configAuth.twitterAuth.consumerKey,
-            consumer_secret: configAuth.twitterAuth.consumerSecret,
-            token: req.user.twitter.token,
-            token_secret: configAuth.twitterAuth.tokenSecret
-        },
-        url = 'https://api.twitter.com/1.1/statuses/home_timeline.json',
-        qs = {
-            screen_name: req.user.twitter.displayName,
-            user_id: req.user.twitter.id,
-            trim_user: true,
-            count: 2,
-            contributor_details: true
-        };
-
-        request.get({url:url, oauth:oauth, qs:qs, json:true}, function (e, r, user) {
             
-            res.render('profile.ejs', {
-                'user' : user
-            });
-        })
-
+        res.render('profile.ejs', {
+            user : req.user
+        });
     });
 
     app.get('/logout', function(req, res) {
@@ -72,6 +53,30 @@ module.exports = function(app, passport) {
         user.save(function(err) {
             res.redirect('/profile');
         });
+    });
+
+    app.get('/api/twitter', isLoggedIn, function(req, res) {
+
+        var oauth = { 
+            consumer_key: configAuth.twitterAuth.consumerKey,
+            consumer_secret: configAuth.twitterAuth.consumerSecret,
+            token: req.user.twitter.token,
+            token_secret: configAuth.twitterAuth.tokenSecret
+        },
+        url = 'https://api.twitter.com/1.1/statuses/home_timeline.json',
+        qs = {
+            screen_name: req.user.twitter.displayName,
+            user_id: req.user.twitter.id,
+            trim_user: true,
+            count: 2,
+            contributor_details: true
+        };
+
+        request.get({url:url, oauth:oauth, qs:qs, json:true}, function (e, r, user) {            
+
+            'user' : user
+        });
+
     });
 
 };
