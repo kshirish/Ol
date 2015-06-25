@@ -2,7 +2,9 @@
 <!doctype html>
 <html>
 <head>
-	<title>::Ol::</title>
+	<title>:: Ol ::</title>
+	<link href='http://fonts.googleapis.com/css?family=Roboto' rel='stylesheet' type='text/css'>
+	<link rel="stylesheet" type="text/css" href="/stylesheets/style.css">
 </head>
 <body>
 
@@ -16,10 +18,54 @@
 	</p>
 
 	<button>get me tweets</button>
-	<script src="/public/javascripts/jquery/dist/jquery.js"></script>
-	<script src="/public/javascripts/handlebars/handlebars.js"></script>
+
+	<div id="social-list"></div>	
+
+	<!-- twitter item template -->
+	<script id="twitter-item-template" type="text/x-handlebars-template">
+		{{#each results}}
+			<div class="social-item">
+				<div class="user-image">
+					<img src="{{profile_image_url}}" alt="user image"/>
+				</div>	
+				<div class="userinfo-container">
+
+					<ul class="userinfo-topbar">
+						<li>{{screen_name}}</li>
+						<li>{{name}}</li>
+						<li>{{created_at}}</li>
+					</ul>
+
+					<div class="userinfo-content">
+						<p>{{text}}</p>	
+					</div>
+
+					<ul class="userinfo-bottombar">
+						<li>{{retweet_count}}</li>
+						<li>{{favorite_count}}</li>
+						<li>{{location}}</li>
+					</ul>
+				</div>
+			</div>
+		{{/each}}
+	</script>
+
+	<script src="/javascripts/jquery/dist/jquery.js"></script>
+	<script src="/javascripts/handlebars/handlebars.js"></script>
 	<script type="text/javascript">
-		console.log('Voila!');
+
+		$(document).ready(function(){
+	
+			var source   = $("#twitter-item-template").html();
+			var template = Handlebars.compile(source);
+			var listContainer = $('#social-list');
+
+			$.get('/api/twitter', function(response) {
+				// append data to html
+				listContainer.append(template(response));
+			});
+		});
+	
 	</script>
 
 

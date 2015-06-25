@@ -13,7 +13,7 @@ var session      = require('express-session');
 var configDB = require('./config/database.js');
 var User = mongojs(configDB.url).collection('user');
 
-require('./config/passport')(passport, User); // pass passport for configuration
+require('./config/passport')(passport, User, mongojs.ObjectId); // pass passport for configuration
 
 app.use(morgan('dev')); // log every request to the console
 app.use(cookieParser()); // read cookies (needed for auth)

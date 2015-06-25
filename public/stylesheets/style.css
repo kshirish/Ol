@@ -1,0 +1,50 @@
+body {
+	font-family: 'Roboto', sans-serif;
+}
+li {
+	list-style: none;
+}
+img {
+    width: 100%;
+}
+.user-image {
+    width: 70px;
+    float: left;
+}
+ul, li {
+    margin: 0;
+    padding: 0;
+}
+.userinfo-topbar li {
+    display: inline-block;
+    padding-right: 10px;
+    font-weight: bold;
+}
+.userinfo-container {
+    display: table-cell;
+    /* float: right; */
+    padding-left: 20px;
+    text-align: left;
+}
+.social-item {
+    clear: both;
+    overflow: auto;
+    padding: 20px;
+    border: 1px solid #e1e8ed;
+    border-bottom: 0;
+}
+.userinfo-bottombar li {
+    display: inline-block;
+    padding-right: 10px;    
+    font-weight: bold;
+}
+.userinfo-topbar, .userinfo-bottombar {
+    font-size: 13px;
+    text-transform: capitalize;
+}
+#social-list {
+    padding: 20px 0;
+}
+.social-item:last-child {
+    border-bottom: 1px solid #e1e8ed;
+}
