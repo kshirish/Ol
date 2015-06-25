@@ -1,0 +1,25 @@
+{
+  "name": "ol",
+  "version": "1.0.0",
+  "description": "A common spot to access all social networks.",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/kshirish/Ol.git"
+  },
+  "keywords": [
+    "social"
+  ],
+  "author": "kshirish",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/kshirish/Ol/issues"
+  },
+  "homepage": "https://github.com/kshirish/Ol#readme",
+  "dependencies": {
+    "express": "^4.13.0"
+  }
+}

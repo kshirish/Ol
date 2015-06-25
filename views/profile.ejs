@@ -1,0 +1,24 @@
+<!-- views/profile.ejs -->
+<!doctype html>
+<html>
+<head>
+	<title>Node Authentication</title>
+</head>
+<body>
+
+	<h1>Profile Page</h1>
+	
+	<p>
+		<strong>displayName</strong>: <%= user.twitter.displayName %><br>
+		<strong>username</strong>: <%= user.twitter.username %><br>
+		<strong>token</strong>: <%= user.twitter.token %><br>
+		<strong>id</strong>: <%= user.twitter.id %>
+	</p>
+
+	<button>get me tweets</button>
+	<script src="//code.jquery.com/jquery-2.1.4.js"></script>
+	<script type="text/javascript">
+		console.log('Voila!');
+	</script>
+</body>
+</html>
