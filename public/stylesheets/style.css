@@ -1,3 +1,6 @@
+/********************************/
+/*******Basic Settings***********/
+/********************************/
 body {
 	font-family: 'Roboto', sans-serif;
 	width: 90%;
@@ -12,6 +15,13 @@ li {
 img {
   width: 100%;
 }
+ul, li {
+    margin: 0;
+    padding: 0;
+}
+/********************************/
+/********************************/
+/********************************/
 h1 {
 	text-align: center;
   padding: 20px;
@@ -20,10 +30,6 @@ h1 {
 .user-image {
     width: 70px;
     float: left;
-}
-ul, li {
-    margin: 0;
-    padding: 0;
 }
 .userinfo-topbar li {
     display: inline-block;
