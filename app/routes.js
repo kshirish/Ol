@@ -64,6 +64,7 @@ module.exports = function(app, passport) {
     });
 
     app.get('/profile', isLoggedIn, function(req, res) {
+
         res.render('profile.ejs', {
             user : req.user[0]
         });
@@ -122,7 +123,7 @@ module.exports = function(app, passport) {
         };
 
         request.get({url:url, oauth:oauth, qs:qs, json:true}, function (e, r, user) {            
-            
+
             res.json({
                 results: filterTwitterData(user)
             });
@@ -167,6 +168,7 @@ module.exports = function(app, passport) {
         url = 'https://api.instagram.com/v1/users/self/feed';
 
         request.get({url:url, qs:qs, json:true}, function (e, r, user) {            
+
             res.json({
                 results: filterInstagramData(user)
             });

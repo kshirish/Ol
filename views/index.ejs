@@ -25,42 +25,11 @@
 
     <!-- social logins -->
     <div class="social-logins">
-		<a class="fa fa-twitter animation" href="/auth/twitter"></a>
-	  	<a class="fa fa-instagram animation" href="/auth/twitter"></a>
+		<a class="fa fa-twitter animation" href="/auth/twitter" onclick="sessionStorage.setItem('social', 'TWITTER')"></a>
+	  	<a class="fa fa-instagram animation" href="/auth/instagram" onclick="sessionStorage.setItem('social', 'INSTAGRAM')"></a>
 	  	<a class="fa fa-facebook animation" href="#"></a>
 	</div>
 
 </div>
-<script src="/javascripts/jquery/dist/jquery.js"></script>
-<script type="text/javascript">
-	$(document).ready(function() {
-	
-		// var delayTime = 1600;
-		// var socialIcons = ['twitter', 'instagram', 'facebook'];
-		// var el = $('span.fa');
-		// var	flag = false;
-
-		// (function animationFun(index) {
-
-		// 	setTimeout(function() {
-
-		// 		if(flag) {
-		// 			el.removeClass('fa-' + socialIcons[index] + ' expandOpen');
-		// 			index++;
-		// 		} else {
-		// 			el.addClass('fa-' + socialIcons[index] + ' expandOpen');
-		// 		}
-				
-		// 		flag = !flag;
-
-		// 		socialIcons.length !== index && animationFun(index);
-
-		// 	}, delayTime);
-
-		// })(0);			
-
-	});
-
-</script>
 </body>
 </html>

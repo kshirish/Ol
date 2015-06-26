@@ -1,4 +1,3 @@
-<!-- views/profile.ejs -->
 <!doctype html>
 <html>
 <head>
@@ -84,14 +83,32 @@
 	<script type="text/javascript">
 
 		$(document).ready(function(){
-	
-			var source   = $("#instagram-item-template").html();
-			var template = Handlebars.compile(source);
-			var listContainer = $('#social-list');
 
-			$.get('/api/instagram', function(response) {
-				// append data to html
-				listContainer.append(template(response));
+			var source;
+			var template;
+			var listContainer = $('#social-list');
+			var serviceUrl;
+
+			if(sessionStorage.getItem('social') === 'TWITTER') {
+
+				serviceUrl = '/api/twitter';
+				source = $("#twitter-item-template").html();
+
+			} else if(sessionStorage.getItem('social') === 'INSTAGRAM') {
+
+				serviceUrl = '/api/instagram';
+				source = $("#instagram-item-template").html();
+
+			} else {
+
+				window.location.href = '/';	// redirect to homepage
+				
+			}
+
+			template = Handlebars.compile(source);
+
+			$.get(serviceUrl, function(response) {
+				listContainer.append(template(response));	// append data to html
 			});
 		});
 	

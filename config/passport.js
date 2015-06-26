@@ -1,11 +1,13 @@
 var TwitterStrategy  = require('passport-twitter').Strategy;
 var InstagramStrategy  = require('passport-instagram').Strategy;
 var configAuth = require('./auth');
+var userId;
 
 module.exports = function(passport, User, ObjectId) {
 
     // passport needs ability to serialize and unserialize users out of session
     passport.serializeUser(function(user, done) {
+        userId = user._id;
         done(null, user._id);
     });
 
@@ -29,8 +31,8 @@ module.exports = function(passport, User, ObjectId) {
         // asynchronous
         process.nextTick(function() {
 
-            // check if the user is already logged in
-            if (!req.user) {
+            // check if the user is already logged in twitter
+            if (!(req.user && req.user.twitter)) {
 
                 User.findOne({ 'twitter.id' : profile.id }, function(err, user) {
                     if (err)
@@ -61,12 +63,28 @@ module.exports = function(passport, User, ObjectId) {
                         newUser.twitter.username    = profile.username;
                         newUser.twitter.displayName = profile.displayName;
 
-                        User.save(newUser, function(err) {
-                            if (err)
-                                return done(err);
+                        if(userId) {
 
-                            return done(null, newUser);
-                        });
+                            // update the existing user object by adding twitter object
+                            User.update({'_id': userId}, {$set: {twitter: newUser.twitter}}, function(err) {
+                                if (err)
+                                    return done(err);
+
+                                newUser._id = userId.toString();
+                                return done(null, newUser);
+                            });
+
+                        } else {
+
+                            // create a user object and add twitter object within
+                            User.save(newUser, function(err) {
+                                if (err)
+                                    return done(err);
+
+                                return done(null, newUser);
+                            });
+                        }
+
                     }
                 });
 
@@ -79,7 +97,7 @@ module.exports = function(passport, User, ObjectId) {
                 user.twitter.username    = profile.username;
                 user.twitter.displayName = profile.displayName;
 
-                User.update({ 'twitter.id' : profile.id }, user, function(err) {
+                User.update({'twitter.id' : profile.id}, user, function(err) {
                     if (err)
                         return done(err);
                                     
@@ -105,8 +123,8 @@ module.exports = function(passport, User, ObjectId) {
         // asynchronous
         process.nextTick(function() {
 
-            // check if the user is already logged in
-            if (!req.user) {
+            // check if the user is already logged in instagram
+            if (!(req.user && req.user.instagram)) {
 
                 User.findOne({ 'instagram.id' : profile.id }, function(err, user) {
                     if (err)
@@ -137,12 +155,28 @@ module.exports = function(passport, User, ObjectId) {
                         newUser.instagram.username    = profile.username;
                         newUser.instagram.displayName = profile.displayName;
 
-                        User.save(newUser, function(err) {
-                            if (err)
-                                return done(err);
+                        if(userId) {
 
-                            return done(null, newUser);
-                        });
+                            // update the existing user object by adding instagram object
+                            User.update({'_id': userId}, {$set: {instagram: newUser.instagram}}, function(err) {
+                                if (err)
+                                    return done(err);
+
+                                newUser._id = userId.toString()
+                                return done(null, newUser);
+                            });
+
+                        } else {
+
+                            // create a user object and add instagram object within
+                            User.save(newUser, function(err) {
+                                if (err)
+                                    return done(err);
+
+                                return done(null, newUser);
+                            });
+                        }
+
                     }
                 });
 
@@ -155,7 +189,7 @@ module.exports = function(passport, User, ObjectId) {
                 user.instagram.username    = profile.username;
                 user.instagram.displayName = profile.displayName;
 
-                User.update({ 'instagram.id' : profile.id }, user, function(err) {
+                User.update({'instagram.id' : profile.id}, user, function(err) {
                     if (err)
                         return done(err);
                                     
