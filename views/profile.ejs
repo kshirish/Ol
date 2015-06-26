@@ -22,7 +22,7 @@
 	<!-- twitter item template -->
 	<script id="twitter-item-template" type="text/x-handlebars-template">
 		{{#each results}}
-			<div class="social-item">
+			<div class="social-item twitter">
 				<i class="fa fa-twitter"></i>
 				<div class="user-image">
 					<img src="{{profile_image_url}}" alt="user image"/>
@@ -49,17 +49,47 @@
 		{{/each}}
 	</script>
 
+	<!-- instagram item template -->
+	<script id="instagram-item-template" type="text/x-handlebars-template">
+		{{#each results}}
+			<div class="social-item instagram">
+				<i class="fa fa-instagram"></i>
+				<div class="user-image">
+					<img src="{{profile_picture}}" alt="user image"/>
+				</div>	
+				<div class="userinfo-container">
+
+					<ul class="userinfo-topbar">
+						<li>@{{username}}</li>
+						<li>{{full_name}}</li>
+						<li>{{created_at}}</li>
+					</ul>
+
+					<div class="userinfo-content">
+						<img src="{{image_url}}" alt="image"/>	
+					</div>
+
+					<ul class="userinfo-bottombar">
+						<li>{{likes_count}} <i class="fa fa-heart"></i></li>
+						<li>{{comments_count}} <i class="fa fa-comments"></i></li>
+						<li>{{location}} <i class="fa fa-map-marker"></i></li>
+					</ul>
+				</div>
+			</div>
+		{{/each}}
+	</script>
+
 	<script src="/javascripts/jquery/dist/jquery.js"></script>
 	<script src="/javascripts/handlebars/handlebars.js"></script>
 	<script type="text/javascript">
 
 		$(document).ready(function(){
 	
-			var source   = $("#twitter-item-template").html();
+			var source   = $("#instagram-item-template").html();
 			var template = Handlebars.compile(source);
 			var listContainer = $('#social-list');
 
-			$.get('/api/twitter', function(response) {
+			$.get('/api/instagram', function(response) {
 				// append data to html
 				listContainer.append(template(response));
 			});

@@ -13,7 +13,7 @@ function isLoggedIn(req, res, next) {
 
 function filterTwitterData(tArr) {
 
-    var rArr = [];   // object to return 
+    var rArr = [];   // array to return 
 
     tArr.map(function(value, index) {
 
@@ -33,6 +33,30 @@ function filterTwitterData(tArr) {
 
 }
 
+function filterInstagramData(tObj) {
+
+    var rArr = [];   // array to return 
+
+    tObj.data.map(function(value, index) {
+
+        rArr[index] = {};
+        rArr[index].tags = value.tags;
+        rArr[index].caption_text = (value.caption && value.caption.text) || '';
+        rArr[index].created_at = (new Date(parseInt(value.created_time))).toLocaleString();
+        rArr[index].username = value.user.username;
+        rArr[index].full_name = value.user.full_name;
+        rArr[index].profile_picture = value.user.profile_picture;
+        rArr[index].location = (value.location && value.location.name) || 'NA';
+        rArr[index].likes_count = value.likes.count;
+        rArr[index].comments_count = value.comments.count;
+        rArr[index].image_url = value.images.standard_resolution.url;
+
+    });
+
+    return rArr;
+
+}
+
 module.exports = function(app, passport) {
 
     app.get('/', function(req, res) {
@@ -40,7 +64,6 @@ module.exports = function(app, passport) {
     });
 
     app.get('/profile', isLoggedIn, function(req, res) {
-        console.log(req.user);    
         res.render('profile.ejs', {
             user : req.user[0]
         });
@@ -51,6 +74,7 @@ module.exports = function(app, passport) {
         res.redirect('/');
     });
 
+    // Twitter
     app.get('/auth/twitter', passport.authenticate('twitter', { scope : 'email' }));
 
     app.get('/auth/twitter/callback',
@@ -101,6 +125,50 @@ module.exports = function(app, passport) {
             
             res.json({
                 results: filterTwitterData(user)
+            });
+        });
+
+    });
+
+    // Instagram
+    app.get('/auth/instagram', passport.authenticate('instagram'));
+
+    app.get('/auth/instagram/callback',
+        passport.authenticate('instagram', {
+            successRedirect : '/profile',
+            failureRedirect : '/'
+        }));
+
+
+    app.get('/connect/instagram', passport.authorize('instagram'));
+
+    app.get('/connect/instagram/callback',
+        passport.authorize('instagram', {
+            successRedirect : '/profile',
+            failureRedirect : '/'
+        }));
+
+
+    app.get('/unlink/instagram', isLoggedIn, function(req, res) {
+        var user           = req.user;
+        user.instagram.token = undefined;
+        user.save(function(err) {
+            res.redirect('/profile');
+        });
+    });
+
+    app.get('/api/instagram', isLoggedIn, function(req, res) {
+            
+        var tempUser = req.user[0];
+        qs = { 
+            access_token: tempUser.instagram.token
+        };
+
+        url = 'https://api.instagram.com/v1/users/self/feed';
+
+        request.get({url:url, qs:qs, json:true}, function (e, r, user) {            
+            res.json({
+                results: filterInstagramData(user)
             });
         });
 
